@@ -8,7 +8,6 @@ class $modify(MyEditorUI, EditorUI) {
     bool init(LevelEditorLayer* editorLayer) {
         if (!EditorUI::init(editorLayer)) return false;
 
-        // Создаем кнопку с использованием стабильного API Geode v3
         auto sprite = ButtonSprite::create("AutoDec", "goldFont.fnt", "GJ_button_01.png", 0.6f);
         auto btn = CCMenuItemSpriteExtra::create(
             sprite,
@@ -33,13 +32,11 @@ class $modify(MyEditorUI, EditorUI) {
 
         std::vector<std::pair<int, CCPoint>> objectsToSpawn;
 
-        // Используем стандартный итератор Cocos2d-x, совместимый со всеми версиями Geode
         CCObject* obj = nullptr;
         CCARRAY_FOREACH(objects, obj) {
             auto gameObject = static_cast<GameObject*>(obj);
             if (!gameObject) continue;
 
-            // Если нашли стандартный блок (ID 1)
             if (gameObject->m_objectID == 1) {
                 CCPoint spawnPos = gameObject->getPosition();
                 spawnPos.y += 30.0f; 
@@ -48,12 +45,8 @@ class $modify(MyEditorUI, EditorUI) {
             }
         }
 
-        // Спавним декор через вызов оригинального метода создания объектов
         for (const auto& [decorID, pos] : objectsToSpawn) {
-            auto newObj = editorLayer->createObject(decorID, pos, true);
-            if (newObj) {
-                editorLayer->m_editorGrid->addObject(newObj);
-            }
+            editorLayer->createObject(decorID, pos, true);
         }
 
         this->updateObjectCount();
