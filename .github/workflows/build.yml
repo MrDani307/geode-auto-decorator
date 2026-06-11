@@ -1,22 +1,26 @@
 name: Build Geode Mod
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+on: [push, workflow_dispatch]
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - name: Android32
-            target: Android32
-          - name: Android64
-            target: Android64
-    name: ${{ matrix.config.name }}
-    uses: geode-sdk/build-geode-mod/.github/workflows/build.yml@v3
-    with:
-      target: ${{ matrix.config.target }}
+    name: Build Android Mod
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Android NDK
+      uses: nndess/setup-ndk@v1
+      with:
+        ndk-version: r26b
+
+    - name: Setup Geode CLI
+      uses: geode-sdk/setup-geode-cli@v2
+
+    - name: Build Mod
+      run: |
+        geode profile add android --android
+        geode profile select android
+        geode mod build --release
