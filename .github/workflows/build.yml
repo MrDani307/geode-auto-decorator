@@ -11,16 +11,25 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Setup Android NDK
-      uses: nndess/setup-ndk@v1
-      with:
-        ndk-version: r26b
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake ninja-build wget unzip curl
 
-    - name: Setup Geode CLI
-      uses: geode-sdk/setup-geode-cli@v2
+    - name: Download Android NDK
+      run: |
+        wget -q https://dl.google.com/android/repository/android-ndk-r26b-linux.zip
+        unzip -q android-ndk-r26b-linux.zip
+        echo "ANDROID_NDK_ROOT=$PWD/android-ndk-r26b" >> $GITHUB_ENV
+
+    - name: Install Geode CLI
+      run: |
+        curl -sS https://raw.githubusercontent.com/geode-sdk/cli/main/install.sh | bash
+        echo "$HOME/.geode/bin" >> $GITHUB_PATH
 
     - name: Build Mod
       run: |
+        export ANDROID_NDK_ROOT=${{ env.ANDROID_NDK_ROOT }}
         geode profile add android --android
         geode profile select android
         geode mod build --release
