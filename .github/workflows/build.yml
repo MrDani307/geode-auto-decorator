@@ -2,4 +2,4 @@ name: Build Geode Mod
 on: [push, workflow_dispatch]
 jobs:
   build:
-    uses: geode-sdk/build-geode-mod/.github/workflows/combined.yml@main
+    uses: geode-sdk/build-geode-mod/.github/workflows/multi-platform.yml@main
