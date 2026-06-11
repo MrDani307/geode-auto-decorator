@@ -1,5 +1,22 @@
 name: Build Geode Mod
-on: [push, workflow_dispatch]
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
 jobs:
   build:
-    uses: geode-sdk/build-geode-mod/.github/workflows/multi-platform.yml@main
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: Android32
+            target: Android32
+          - name: Android64
+            target: Android64
+    name: ${{ matrix.config.name }}
+    uses: geode-sdk/build-geode-mod/.github/workflows/build.yml@v3
+    with:
+      target: ${{ matrix.config.target }}
