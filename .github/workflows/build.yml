@@ -1,35 +1,51 @@
 name: Build Geode Mod
 
-on: [push, workflow_dispatch]
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - '**'
 
 jobs:
   build:
-    name: Build Android Mod
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - name: Android32
+          os: ubuntu-latest
+          target: Android32
+        - name: Android64
+          os: ubuntu-latest
+          target: Android64      
+
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
 
-    - name: Install Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y cmake ninja-build wget unzip curl
+      - name: Build the mod
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          bindings: 'TheSillyDoggo/bindings'
+          build-config: 'Release'
+          combine: true
+          target: ${{ matrix.config.target }}
+      
+  package:
+    name: Package builds
+    runs-on: ubuntu-latest
+    needs: ['build']
 
-    - name: Download Android NDK
-      run: |
-        wget -q https://dl.google.com/android/repository/android-ndk-r26b-linux.zip
-        unzip -q android-ndk-r26b-linux.zip
-        echo "ANDROID_NDK_ROOT=$PWD/android-ndk-r26b" >> $GITHUB_ENV
+    steps:
+      - uses: geode-sdk/build-geode-mod/combine@main
+        id: build
 
-    - name: Install Geode CLI
-      run: |
-        curl -sS https://raw.githubusercontent.com/geode-sdk/cli/main/install.sh | bash
-
-    - name: Build Mod
-      run: |
-        export ANDROID_NDK_ROOT=${{ env.ANDROID_NDK_ROOT }}
-        export PATH="$HOME/.geode/bin:$PATH"
-        geode profile add android --android
-        geode profile select android
-        geode mod build --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Build Output
+          path: ${{ steps.build.outputs.build-output }}
