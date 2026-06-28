@@ -1,13 +1,13 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.25)
 
-project(AutoDecorator)
+project(GeodeAutoDecorator)
 
-find_package(geode PROFILE REQUIRED)
+find_package(Geode REQUIRED)
 
 add_geode_mod(
-    AutoDecorator
+    geode-auto-decorator
     VERSION v1.0.0
-    DEVELOPER "Daniil"
+    
+    SOURCES
+        src/main.cpp
 )
-
-target_sources(AutoDecorator PRIVATE src/main.cpp)
