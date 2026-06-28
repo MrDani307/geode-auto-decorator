@@ -1,9 +1,11 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
+#include <Geode/ui/Popup.hpp>
 
 using namespace geode::prelude;
 
-class MyPopup : public geode::Popup<> {
+// === Popup меню ===
+class MyPopup : public Popup<> {
 protected:
     bool setup() override {
         this->setTitle("Моё меню");
@@ -21,7 +23,8 @@ public:
     }
 };
 
-class $modify(MenuLayer) {
+// === Хук на MenuLayer ===
+class $modify(MyMenuLayer, MenuLayer) {
     bool init() {
         if (!MenuLayer::init()) return false;
 
@@ -33,7 +36,7 @@ class $modify(MenuLayer) {
                 CircleBaseSize::Small
             ),
             this,
-            menu_selector(MenuLayerExt::onFloatBtn)
+            menu_selector(MyMenuLayer::onFloatBtn)
         );
 
         auto menu = CCMenu::create();
