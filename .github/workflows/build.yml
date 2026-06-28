@@ -20,15 +20,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Force Overwrite CLI Cache
+      - name: Manual Geode CLI & SDK Setup
         run: |
+          # Создаем структуру директорий
           mkdir -p my-epic-geode-cli
+          
+          # Скачиваем и распаковываем CLI принудительно
           curl -L https://github.com/geode-sdk/cli/releases/download/v3.7.4/geode-cli-v3.7.4-linux.zip -o geode-cli.zip
           7z x geode-cli.zip -omy-epic-geode-cli -aoa
           rm geode-cli.zip
-
-      - name: Setup Geode CLI
-        uses: geode-sdk/cli/.github/actions/setup@main
+          
+          # Делаем бинарник исполняемым и добавляем в системный PATH
+          chmod +x my-epic-geode-cli/geode
+          echo "$GITHUB_WORKSPACE/my-epic-geode-cli" >> $GITHUB_PATH
+          
+          # Эмулируем работу экшена для CMake
+          echo "GEODE_CLI=$GITHUB_WORKSPACE/my-epic-geode-cli/geode" >> $GITHUB_ENV
 
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
