@@ -1,5 +1,5 @@
 {
-  "geode": "5.0.0",
+  "geode": "5.7.1",
   "gd": {
     "android": "2.2081"
   },
@@ -7,5 +7,5 @@
   "version": "v1.0.0",
   "name": "Float Menu",
   "developer": "Daniil",
-  "description": "Плавающая кнопка с пустым меню."
+  "description": "Плавающая кнопка с меню."
 }
