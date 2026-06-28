@@ -24,7 +24,9 @@ jobs:
 
       - name: Install Geode SDK
         run: |
-          geode config setup
+          mkdir -p $HOME/.config/geode
+          echo '{"profiles":[{"name":"GithubActions","gd_path":"/tmp/gd"}],"current_profile":"GithubActions"}' > $HOME/.config/geode/config.json
+          mkdir -p /tmp/gd
           geode sdk install $HOME/geode-sdk
           echo "GEODE_SDK=$HOME/geode-sdk" >> $GITHUB_ENV
           geode sdk install-binaries -p android64
