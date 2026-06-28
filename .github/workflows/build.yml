@@ -20,6 +20,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Force Overwrite CLI Cache
+        run: |
+          mkdir -p my-epic-geode-cli
+          curl -L https://github.com/geode-sdk/cli/releases/download/v3.7.4/geode-cli-v3.7.4-linux.zip -o geode-cli.zip
+          7z x geode-cli.zip -omy-epic-geode-cli -aoa
+          rm geode-cli.zip
+
+      - name: Setup Geode CLI
+        uses: geode-sdk/cli/.github/actions/setup@main
+
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
         with:
