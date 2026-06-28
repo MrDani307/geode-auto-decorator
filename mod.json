@@ -1,15 +1,11 @@
 {
-    "geode": "2.0.0-beta.1",
-    "id": "daniil.autodecorator",
-    "version": "1.0.0",
-    "name": "Auto Decorator",
-    "developer": "Daniil",
-    "description": "Автоматически декорирует выделенные блоки в редакторе.",
-    "dependencies": [
-        {
-            "id": "geode.loader",
-            "version": ">=2.0.0-beta.1",
-            "importance": "required"
-        }
-    ]
+  "geode": "5.0.0",
+  "gd": {
+    "android": "2.2081"
+  },
+  "id": "daniil.floatmenu",
+  "version": "v1.0.0",
+  "name": "Float Menu",
+  "developer": "Daniil",
+  "description": "Плавающая кнопка с пустым меню."
 }
