@@ -22,13 +22,20 @@ jobs:
         with:
           ndk-version: r27c
 
-      - name: Setup Geode profile and SDK
+      - name: Setup Geode profile
         run: |
           mkdir -p /tmp/gd
           geode profile add --name GithubActions /tmp/gd
+
+      - name: Install Geode SDK
+        run: |
           geode sdk install $HOME/geode-sdk
           echo "GEODE_SDK=$HOME/geode-sdk" >> $GITHUB_ENV
-          geode sdk install-binaries -p android64
+
+      - name: Install SDK binaries
+        env:
+          GEODE_SDK: ${{ env.GEODE_SDK }}
+        run: geode sdk install-binaries -p android64
 
       - name: Configure CMake
         run: |
