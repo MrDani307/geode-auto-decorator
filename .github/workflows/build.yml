@@ -24,7 +24,7 @@ jobs:
 
       - name: Install Geode SDK
         run: |
-          geode config setup --profile GithubActions
+          geode config setup
           geode sdk install $HOME/geode-sdk
           echo "GEODE_SDK=$HOME/geode-sdk" >> $GITHUB_ENV
           geode sdk install-binaries -p android64
