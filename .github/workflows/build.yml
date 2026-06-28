@@ -1,24 +1,33 @@
 name: Build Geode Mod
 
 on:
-  workflow_dispatch:  # Позволяет запустить сборку вручную
-    push:
-      branches:
-        - main
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows, macos]
-        target: [Win64, Android64]  # Платформы для сборки
+        include:
+          - os: windows-latest
+            target: Win64
+          - os: macos-latest
+            target: macOS
+          - os: ubuntu-latest
+            target: Android64
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Build the mod
-      uses: geode-sdk/build-geode-mod@main
-      with:
-        combine: true  # Если true, несколько сборок для разных платформ объединятся в один `.geode`-файл
-        target: ${{ matrix.target }}
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          sdk: latest
+          cli: latest
+          target: ${{ matrix.target }}
+          build-config: Release
+          combine: true
