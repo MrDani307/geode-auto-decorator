@@ -1,13 +1,15 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.21)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-project(GeodeAutoDecorator)
+project(MyMod VERSION 1.0.0)
 
-find_package(Geode REQUIRED)
+add_library(${PROJECT_NAME} SHARED src/main.cpp)
 
-add_geode_mod(
-    geode-auto-decorator
-    VERSION v1.0.0
-    
-    SOURCES
-        src/main.cpp
-)
+if (NOT DEFINED ENV{GEODE_SDK})
+    message(FATAL_ERROR "GEODE_SDK environment variable not set")
+endif()
+
+add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
+target_link_libraries(${PROJECT_NAME} geode-sdk)
+create_geode_file(${PROJECT_NAME})
