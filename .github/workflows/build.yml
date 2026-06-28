@@ -24,6 +24,7 @@ jobs:
         run: |
           rm -rf my-epic-geode-cli
           rm -rf .sccache
+          rm -rf cpm-cache
 
       - name: Setup Geode CLI
         uses: geode-sdk/cli/.github/actions/setup@main
