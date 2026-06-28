@@ -11,12 +11,9 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build Android64
-        uses: geode-sdk/build-geode-mod@main
+        uses: geode-sdk/build-geode-mod@v3
         with:
           target: android64
-
-      - name: Find geode file
-        run: find . -name "*.geode" 2>/dev/null
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
