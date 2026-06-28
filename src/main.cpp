@@ -3,25 +3,6 @@
 
 using namespace geode::prelude;
 
-class MyMenuLayer : public FLAlertLayer {
-public:
-    static MyMenuLayer* create() {
-        auto ret = new MyMenuLayer();
-        if (ret->init(
-            nullptr,
-            "Моё меню",
-            "Закрыть",
-            nullptr,
-            300.f
-        )) {
-            ret->autorelease();
-            return ret;
-        }
-        delete ret;
-        return nullptr;
-    }
-};
-
 class $modify(MyMenuHook, MenuLayer) {
     bool init() {
         if (!MenuLayer::init()) return false;
@@ -46,11 +27,10 @@ class $modify(MyMenuHook, MenuLayer) {
     }
 
     void onFloatBtn(CCObject*) {
-        auto alert = FLAlertLayer::create(
+        FLAlertLayer::create(
             "Моё меню",
-            "Пусто",
+            "Здесь пока пусто.",
             "Закрыть"
-        );
-        alert->show();
+        )->show();
     }
 };
