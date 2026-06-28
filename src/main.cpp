@@ -44,7 +44,7 @@ class $modify(MyEditorUI, EditorUI) {
         std::vector<GameObject*> objectsToDecorate;
         CCObject* obj;
         CCARRAY_FOREACH(selectedObjects, obj) {
-            auto gameObj = typeinfo_cast<GameObject*>(obj);
+            auto gameObj = static_cast<GameObject*>(obj);
             if (gameObj) {
                 objectsToDecorate.push_back(gameObj);
             }
@@ -52,10 +52,9 @@ class $modify(MyEditorUI, EditorUI) {
 
         for (auto* baseObj : objectsToDecorate) {
             CCPoint basePos = baseObj->getPosition();
-            
             int decorationID = 44; 
-            auto decorObj = editorLayer->createObject(decorationID, basePos + CCPoint{0, 30.0f}, true);
             
+            auto decorObj = editorLayer->createObject(decorationID, basePos + CCPoint{0, 30.0f}, true);
             if (decorObj) {
                 decorObj->m_editorLayer = editorLayer;
                 editorLayer->m_objects->addObject(decorObj);
