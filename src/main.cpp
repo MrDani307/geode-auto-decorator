@@ -1,20 +1,19 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
-#include <Geode/ui/Popup.hpp>
 
 using namespace geode::prelude;
 
-// === Popup меню ===
-class MyPopup : public Popup<> {
-protected:
-    bool setup() override {
-        this->setTitle("Моё меню");
-        return true;
-    }
+class MyMenuLayer : public FLAlertLayer {
 public:
-    static MyPopup* create() {
-        auto ret = new MyPopup();
-        if (ret->initAnchored(280.f, 180.f)) {
+    static MyMenuLayer* create() {
+        auto ret = new MyMenuLayer();
+        if (ret->init(
+            nullptr,
+            "Моё меню",
+            "Закрыть",
+            nullptr,
+            300.f
+        )) {
             ret->autorelease();
             return ret;
         }
@@ -23,8 +22,7 @@ public:
     }
 };
 
-// === Хук на MenuLayer ===
-class $modify(MyMenuLayer, MenuLayer) {
+class $modify(MyMenuHook, MenuLayer) {
     bool init() {
         if (!MenuLayer::init()) return false;
 
@@ -36,7 +34,7 @@ class $modify(MyMenuLayer, MenuLayer) {
                 CircleBaseSize::Small
             ),
             this,
-            menu_selector(MyMenuLayer::onFloatBtn)
+            menu_selector(MyMenuHook::onFloatBtn)
         );
 
         auto menu = CCMenu::create();
@@ -48,6 +46,11 @@ class $modify(MyMenuLayer, MenuLayer) {
     }
 
     void onFloatBtn(CCObject*) {
-        MyPopup::create()->show();
+        auto alert = FLAlertLayer::create(
+            "Моё меню",
+            "Пусто",
+            "Закрыть"
+        );
+        alert->show();
     }
 };
