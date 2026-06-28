@@ -20,15 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Clear Conflicting Cache
-        run: |
-          rm -rf my-epic-geode-cli
-          rm -rf .sccache
-          rm -rf cpm-cache
-
-      - name: Setup Geode CLI
-        uses: geode-sdk/cli/.github/actions/setup@main
-
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
         with:
