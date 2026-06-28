@@ -24,7 +24,7 @@ jobs:
 
       - name: Install Geode SDK
         run: |
-          geode sdk install --path $HOME/geode-sdk
+          geode sdk install $HOME/geode-sdk
           echo "GEODE_SDK=$HOME/geode-sdk" >> $GITHUB_ENV
           geode sdk install-binaries -p android64
 
@@ -40,7 +40,7 @@ jobs:
       - name: Build
         run: cmake --build build --config Release
 
-      - name: Find and upload
+      - name: Find geode file
         run: find . -name "*.geode"
 
       - name: Upload artifact
