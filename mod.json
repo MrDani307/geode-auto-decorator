@@ -1,9 +1,15 @@
 {
-    "geode": "3.0.0-beta.1",
-    "id": "icedog.autodecorator",
-    "name": "Auto Decorator",
-    "developer": "IceDog",
+    "geode": "2.0.0-beta.1",
+    "id": "daniil.autodecorator",
     "version": "1.0.0",
-    "description": "Автоматически декорирует уровень в редакторе",
-    "dependencies": []
+    "name": "Auto Decorator",
+    "developer": "Daniil",
+    "description": "Автоматически декорирует выделенные блоки в редакторе.",
+    "dependencies": [
+        {
+            "id": "geode.loader",
+            "version": ">=2.0.0-beta.1",
+            "importance": "required"
+        }
+    ]
 }
