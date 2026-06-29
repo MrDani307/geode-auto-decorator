@@ -9,9 +9,9 @@ class $modify(MyEditorUI, EditorUI) {
 
         auto btn = CCMenuItemSpriteExtra::create(
             CircleButtonSprite::createWithSpriteFrameName(
-                "edit_ePlusBtn_001.png",
+                "GJ_plainBtn_001.png",
                 1.f,
-                CircleBaseColor::Green,
+                CircleBaseColor::Blue,
                 CircleBaseSize::Small
             ),
             this,
@@ -30,9 +30,9 @@ class $modify(MyEditorUI, EditorUI) {
         auto selectedObjs = this->getSelectedObjects();
         if (!selectedObjs || selectedObjs->count() == 0) {
             FLAlertLayer::create(
-                "Анализ блоков",
-                "Нет выделенных блоков.\nВыдели блоки и нажми снова.",
-                "Закрыть"
+                "Auto Decorator",
+                "No objects selected.\nSelect objects and try again.",
+                "OK"
             )->show();
             return;
         }
@@ -58,16 +58,16 @@ class $modify(MyEditorUI, EditorUI) {
         }
 
         std::string result =
-            "Найдено: " + std::to_string(selectedObjs->count()) + "\n\n" +
-            "Платформы: " + std::to_string(solidCount) + "\n" +
-            "Шипы: " + std::to_string(spikeCount) + "\n" +
-            "Декорации: " + std::to_string(decorCount) + "\n" +
-            "Другое: " + std::to_string(otherCount);
+            "Objects: " + std::to_string(selectedObjs->count()) +
+            "\nSolid: " + std::to_string(solidCount) +
+            "\nSpikes: " + std::to_string(spikeCount) +
+            "\nDecor: " + std::to_string(decorCount) +
+            "\nOther: " + std::to_string(otherCount);
 
         FLAlertLayer::create(
-            "Анализ блоков",
+            "Auto Decorator",
             result.c_str(),
-            "Закрыть"
+            "OK"
         )->show();
     }
 };
