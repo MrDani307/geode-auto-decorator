@@ -1,11 +1,11 @@
 {
-  "geode": "5.0.0",
+  "geode": "5.7.1",
   "gd": {
     "android": "2.2081"
   },
-  "id": "daniil.floatmenu",
+  "id": "daniil.autodecorator",
   "version": "v1.0.0",
-  "name": "Float Menu",
+  "name": "Auto Decorator",
   "developer": "Daniil",
-  "description": "Плавающая кнопка с меню."
+  "description": "Автоматически декорирует уровни."
 }
