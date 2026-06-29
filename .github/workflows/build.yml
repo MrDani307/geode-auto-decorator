@@ -32,7 +32,7 @@ jobs:
           geode sdk install $HOME/geode-sdk
           geode sdk set-path $HOME/geode-sdk
           export GEODE_SDK=$HOME/geode-sdk
-          geode sdk update v5.0.0
+          geode sdk update v5.7.1
           echo "GEODE_SDK=$HOME/geode-sdk" >> $GITHUB_ENV
 
       - name: Install SDK binaries
