@@ -3,20 +3,6 @@
 
 using namespace geode::prelude;
 
-// === Popup с анализом блоков ===
-class AnalyzePopup : public FLAlertLayer {
-public:
-    static AnalyzePopup* create(std::string text) {
-        auto ret = FLAlertLayer::create(
-            "Анализ блоков",
-            text.c_str(),
-            "Закрыть"
-        );
-        return ret;
-    }
-};
-
-// === Хук на EditorUI — добавляем плавающую кнопку ===
 class $modify(MyEditorUI, EditorUI) {
     bool init(LevelEditorLayer* lel) {
         if (!EditorUI::init(lel)) return false;
@@ -35,19 +21,12 @@ class $modify(MyEditorUI, EditorUI) {
         auto menu = CCMenu::create();
         menu->addChild(btn);
         menu->setPosition(35.f, 35.f);
-        // Высокий z-order чтобы быть поверх всего
         this->addChild(menu, 999);
 
         return true;
     }
 
     void onAnalyzeBtn(CCObject*) {
-        auto editorLayer = LevelEditorLayer::get();
-        if (!editorLayer) {
-            FLAlertLayer::create("Ошибка", "Редактор не найден.", "Ок")->show();
-            return;
-        }
-
         auto selectedObjs = this->getSelectedObjects();
         if (!selectedObjs || selectedObjs->count() == 0) {
             FLAlertLayer::create(
@@ -58,17 +37,15 @@ class $modify(MyEditorUI, EditorUI) {
             return;
         }
 
-        // Считаем типы блоков
         int solidCount = 0;
         int spikeCount = 0;
         int decorCount = 0;
         int otherCount = 0;
 
-        for (int i = 0; i < selectedObjs->count(); i++) {
+        for (int i = 0; i < (int)selectedObjs->count(); i++) {
             auto obj = static_cast<GameObject*>(selectedObjs->objectAtIndex(i));
             int id = obj->m_objectID;
 
-            // Простая классификация по ID
             if (id == 1 || id == 2 || id == 3 || id == 4) {
                 solidCount++;
             } else if (id == 8 || id == 39 || id == 103) {
@@ -80,8 +57,8 @@ class $modify(MyEditorUI, EditorUI) {
             }
         }
 
-        std::string result = "Найдено объектов: " + 
-            std::to_string(selectedObjs->count()) + "\n\n" +
+        std::string result =
+            "Найдено: " + std::to_string(selectedObjs->count()) + "\n\n" +
             "Платформы: " + std::to_string(solidCount) + "\n" +
             "Шипы: " + std::to_string(spikeCount) + "\n" +
             "Декорации: " + std::to_string(decorCount) + "\n" +
