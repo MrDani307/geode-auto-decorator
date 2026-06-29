@@ -20,7 +20,7 @@ jobs:
       - name: Install Android NDK
         uses: nttld/setup-ndk@v1
         with:
-          ndk-version: r27c
+          ndk-version: r28b
 
       - name: Setup Geode profile
         run: |
