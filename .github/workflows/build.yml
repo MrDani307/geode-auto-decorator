@@ -30,12 +30,13 @@ jobs:
       - name: Install Geode SDK
         run: |
           geode sdk install $HOME/geode-sdk
+          geode sdk set-path $HOME/geode-sdk
           echo "GEODE_SDK=$HOME/geode-sdk" >> $GITHUB_ENV
 
       - name: Install SDK binaries
-        env:
-          GEODE_SDK: ${{ env.GEODE_SDK }}
-        run: geode sdk install-binaries -p android64
+        run: |
+          export GEODE_SDK=$HOME/geode-sdk
+          geode sdk install-binaries -p android64
 
       - name: Configure CMake
         run: |
