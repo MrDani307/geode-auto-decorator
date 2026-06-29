@@ -11,6 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Clang 19
+        run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 19
+          sudo apt-get install -y clang-19
+
       - name: Install Geode CLI
         run: |
           curl -L https://github.com/geode-sdk/cli/releases/latest/download/geode-cli-v3.7.4-linux.zip -o cli.zip
@@ -20,7 +27,7 @@ jobs:
       - name: Install Android NDK
         uses: nttld/setup-ndk@v1
         with:
-          ndk-version: r29
+          ndk-version: r27c
 
       - name: Setup Geode profile
         run: |
@@ -45,6 +52,8 @@ jobs:
             -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
             -DANDROID_ABI=arm64-v8a \
             -DANDROID_PLATFORM=android-23 \
+            -DCMAKE_C_COMPILER=clang-19 \
+            -DCMAKE_CXX_COMPILER=clang++-19 \
             -GNinja
 
       - name: Build
